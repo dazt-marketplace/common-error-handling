@@ -51,6 +51,14 @@ dependencyManagement {
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://maven.pkg.github.com/dazt/common-error-handling")
+        credentials {
+            //These variables are only needed to be configured in local.
+            username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {
@@ -77,6 +85,31 @@ tasks.withType<Test> {
 //tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
 //    enabled = false
 //}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            pom {
+                scm {
+                    connection.set("scm:git:git://github.com/tuusuario/common-error-handling.git")
+                    developerConnection.set("scm:git:ssh://github.com/tuusuario/common-error-handling.git")
+                    url.set("https://github.com/tuusuario/common-error-handling")
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/dazt-marketplace/common-error-handling")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
 
 tasks.named<Jar>("jar") {
     enabled = true
