@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - development
+      - feature/library-remote-publishing
   workflow_dispatch:
 
 jobs:
