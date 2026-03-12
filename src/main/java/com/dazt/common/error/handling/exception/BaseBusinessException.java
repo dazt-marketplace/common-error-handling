@@ -2,22 +2,20 @@ package com.dazt.common.error.handling.exception;
 
 import lombok.Getter;
 
+import com.dazt.common.error.handling.error.ErrorDefinition;
+
 @Getter
-public class BaseBusinessException extends RuntimeException {
+public class BaseBusinessException extends BaseException {
 
-    private final String message;
-    private final String code;
-
-    public BaseBusinessException(String message, String code) {
-        super(message);
-        this.message = message;
-        this.code = code;
+    public BaseBusinessException(ErrorDefinition error, Throwable cause) {
+        super(error, cause);
     }
 
-    public BaseBusinessException(String message, Throwable cause, String code) {
-        super(message, cause);
-        this.message = message;
-        this.code = code;
+    public BaseBusinessException(ErrorDefinition error, Object... parameters) {
+        super(error, parameters);
     }
 
+    public BaseBusinessException(ErrorDefinition error, Throwable cause, Object... parameters) {
+        super(error, cause, parameters);
+    }
 }
